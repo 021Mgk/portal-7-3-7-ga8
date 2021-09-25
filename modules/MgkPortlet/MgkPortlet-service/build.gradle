@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:MgkPortlet:MgkPortlet-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../MgkPortlet-api/src/main/java"
+}
+
+group = "mgkportlet"

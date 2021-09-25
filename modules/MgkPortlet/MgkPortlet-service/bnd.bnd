@@ -1,0 +1,7 @@
+Bundle-Name: MgkPortlet-service
+Bundle-SymbolicName: mgkportlet.service
+Bundle-Version: 1.0.0
+Export-Package: mgkportlet.search
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true
+-dsannotations-options: inherit

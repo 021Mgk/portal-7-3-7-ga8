@@ -1,0 +1,6 @@
+Bundle-Name: MgkPortlet-rest-api
+Bundle-SymbolicName: mgkportlet.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	mgkportlet.rest.dto.v1_0,\
+	mgkportlet.rest.resource.v1_0

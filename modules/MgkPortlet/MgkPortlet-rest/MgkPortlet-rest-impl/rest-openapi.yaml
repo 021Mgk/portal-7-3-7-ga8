@@ -1,0 +1,180 @@
+info:
+  description:
+    "A Java client JAR is available for use with the group ID 'com.liferay', artifact ID
+        'com.liferay.app.builder.rest.client', and version '1.0.12'."
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  title: "App Builder"
+  version: v1.0
+openapi: 3.0.1
+components:
+  schemas:
+    MGKPerson:
+      description:
+        A MGKPerson that is a member of the portal.
+      properties:
+        email:
+          format: email
+          type: string
+        firstName:
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastName:
+          type: string
+      type: object
+paths:
+  "/sites/{siteId}/persons":
+    get:
+      # @review
+      description:
+        Retrieves the persons. Results can be paginated.
+      operationId: getPersonsPage
+      parameters:
+        - in: path
+          name: siteId
+          required: true
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/MGKPerson"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/MGKPerson"
+                type: array
+          description:
+            ""
+      tags: ["MGKPerson"]
+    post:
+      description:
+        Creates a new person
+      operationId: addPerson
+      parameters:
+        - in: path
+          name: siteId
+          required: true
+          schema:
+            format: int64
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MGKPerson"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/MGKPerson"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MGKPerson"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/MGKPerson"
+          # @review
+          description:
+            "Person successfully added"
+      tags: ["MGKPerson"]
+    put:
+      description: Update person
+      operationId: updatePerson
+      parameters:
+        - in: path
+          name: siteId
+          required: true
+          schema:
+            format: int64
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MGKPerson"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/MGKPerson"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MGKPerson"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/MGKPerson"
+          # @review
+          description:
+            "MGKPerson successfully added"
+      tags: ["MGKPerson"]
+    delete:
+      description: Delete MGKPerson
+      operationId: deletePerson
+      parameters:
+        - in: path
+          name: siteId
+          required: true
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          name: personId
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          content:
+            application/json: {}
+            application/xml: {}
+          description: ""
+      tags: ["MGKPerson"]
+
+  "/sites/{siteId}/persons/{personId}":
+    get:
+      # @review
+      description:
+        Retrieves the person.
+      operationId: getPerson
+      parameters:
+        - in: path
+          name: siteId
+          required: true
+          schema:
+            format: int64
+            type: integer
+        - in: path
+          name: personId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MGKPerson"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/MGKPerson"
+          description: ""
+      tags: ["MGKPerson"]

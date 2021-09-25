@@ -1,0 +1,9 @@
+apiDir: "../MgkPortlet-rest-api/src/main/java"
+apiPackagePath: "mgkportlet.rest"
+application:
+    baseURI: "/MgkPortlet-rest"
+    className: "MgkPortletRestApplication"
+    name: "MgkPortletRest"
+author: "USER"
+clientDir: "../MgkPortlet-rest-client/src/main/java"
+testDir: "../MgkPortlet-rest-test/src/testIntegration/java"

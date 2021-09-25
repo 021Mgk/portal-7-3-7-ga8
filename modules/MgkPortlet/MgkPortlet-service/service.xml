@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.3.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_3_0.dtd">
+
+<service-builder dependency-injector="ds" mvcc-enabled="true" package-path="mgkportlet">
+	<author>021mgk</author>
+	<namespace>mgk</namespace>
+
+	<entity local-service="true" name="Person" remote-service="true" uuid="true">
+
+		<column name="personId" primary="true" type="long" />
+		<column name="name" type="String" />
+		<column name="family" type="String" />
+		<column name="nationalCode" type="String" />
+		<column name="email" type="String" />
+		<column name="address" type="String" />
+		<column name="image" type="String" />
+		<column name="description" type="String" />
+		<column name="phoneNumber" type="String" />
+		<column name="registerDate" type="Date" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+
+		<!-- Audit fields -->
+		<!-- These fields help you track owners of entity instances) -->
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="NationalCode" return-type="Collection">
+			<finder-column name="nationalCode" />
+		</finder>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+	</entity>
+
+	<exceptions>
+		<exception>PersonEmail</exception>
+		<exception>PersonNationalCode</exception>
+		<exception>PersonPhoneNumber</exception>
+	</exceptions>
+</service-builder>

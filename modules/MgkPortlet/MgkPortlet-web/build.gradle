@@ -1,0 +1,8 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+
+	compileOnly project(":modules:MgkPortlet:MgkPortlet-api")
+	compileOnly project(":modules:MgkPortlet:MgkPortlet-service")
+
+	cssBuilder group: "com.liferay", name: "com.liferay.css.builder", version: "3.0.2"
+}
