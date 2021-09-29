@@ -18,6 +18,7 @@ import com.liferay.document.library.kernel.exception.NoSuchFolderException;
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portletfilerepository.PortletFileRepositoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -30,17 +31,17 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.io.InputStream;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
+import mgkportlet.exception.NoSuchPersonException;
 import mgkportlet.model.Person;
 
 import mgkportlet.service.base.PersonLocalServiceBaseImpl;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
 
 /**
  * The implementation of the person local service.
@@ -61,25 +62,42 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
+    public Folder addFolder(
+            String name, String description, Long parentId)
+            throws PortalException {
+
+        ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+        Folder folder;
+
+        try {
+            folder = _dlAppService.getFolder(
+                    serviceContext.getScopeGroupId(), parentId, name);
+        } catch (NoSuchFolderException e) {
+            folder = _dlAppService.addFolder(
+                    serviceContext.getScopeGroupId(), parentId, name, description,
+                    serviceContext);
+        }
+
+        return folder;
+    }
+
     /**
      * NOTE FOR DEVELOPERS:
      * <p>
      * Never reference this class directly. Use <code>mgkportlet.service.PersonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>mgkportlet.service.PersonLocalServiceUtil</code>.
      */
-
-
     @Indexable(type = IndexableType.REINDEX)
     public Person addPerson(
             long pId, String name, String family, String email, String address,
             String phoneNumber, String nationalCode, String description,
-            String image, InputStream inputStream, String contentType, Long size, ServiceContext serviceContext) {
+            String image, InputStream inputStream, String contentType, Long size,
+            ServiceContext serviceContext) {
 
         if (serviceContext == null) {
             serviceContext = ServiceContextThreadLocal.getServiceContext();
         }
 
         Person person = null;
-
         try {
             long groupId = serviceContext.getScopeGroupId();
             User user = userLocalService.getUserById(pId);
@@ -107,17 +125,24 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
             person.setDescription(description);
             person.setRegisterDate(now);
 
-            Folder folder = addFolder("person_gallery", "persons images", 0l, serviceContext);
+            Folder folder = addFolder(
+                    "person_gallery", "persons images", 0l);
 
-            String ext = MimeTypesUtil.getExtensions(contentType).iterator().next();
+            String ext = MimeTypesUtil.getExtensions(
+                    contentType
+            ).iterator(
+            ).next();
+
             String fileName = name + "_" + family + ext;
+
             String uniqueFileName = PortletFileRepositoryUtil.getUniqueFileName(
-                    serviceContext.getScopeGroupId(), folder.getFolderId(), fileName);
+                    serviceContext.getScopeGroupId(), folder.getFolderId(),
+                    fileName);
 
             FileEntry fileEntry = _dlAppService.addFileEntry(
-                    serviceContext.getScopeGroupId(), folder.getFolderId(), uniqueFileName, contentType, uniqueFileName,
-                    description, uniqueFileName, inputStream, size, serviceContext);
-
+                    serviceContext.getScopeGroupId(), folder.getFolderId(),
+                    uniqueFileName, contentType, uniqueFileName, description,
+                    uniqueFileName, inputStream, size, serviceContext);
 
             person.setImage(fileEntry.getFileName());
 
@@ -125,9 +150,13 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
             personPersistence.update(person);
 
+            resourceLocalService.addResources(user.getCompanyId(), serviceContext.getScopeGroupId(), user.getUserId(),
+                    Person.class.getName(), personId, false, true, true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         return person;
     }
@@ -136,9 +165,9 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
     public Person deletePerson(long personId, ServiceContext serviceContext)
             throws PortalException {
 
-        //		resourceLocalService.deleteResource(serviceContext.getCompanyId(),
-        //				Person.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL,
-        //				personId);
+        resourceLocalService.deleteResource(serviceContext.getCompanyId(),
+                Person.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL,
+                personId);
 
         return deletePerson(personId);
     }
@@ -157,10 +186,23 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
         return personPersistence.findByGroupId(groupId, start, end, obc);
     }
 
+    @Override
+    public Person getPerson(long personId) throws PortalException {
+        System.out.println("WWWWWWWWWWWWWWWWWWW");
+        Person person = personPersistence.findByPrimaryKey(personId);
+        System.out.println(person.getImage());
+        Folder folder = _dlAppService.getFolder(person.getGroupId(), 0l, "person_gallery");
+        System.out.println(folder.getFolderId() + " >>>>>>>>>>>>>>>>>>>>>");
+        FileEntry fileEntry = _dlAppService.getFileEntry(person.getGroupId(), folder.getFolderId(), person.getImage());
+        System.out.println(fileEntry.getFileName());
+        System.out.println(fileEntry.getFolderId());
+        person.setImage("/documents/" + fileEntry.getGroupId() + "/" + fileEntry.getFolderId() + "/" + fileEntry.getFileName());
+        return person;
+    }
+
     public int getPersonsCount(long groupId) {
         return personPersistence.countByGroupId(groupId);
     }
-
 
     @Indexable(type = IndexableType.REINDEX)
     public Person updatePerson(
@@ -196,28 +238,17 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
         personPersistence.update(person);
 
-        //		resourceLocalService.updateResources(serviceContext.getCompanyId(),
-        //				serviceContext.getScopeGroupId(),
-        //				Person.class.getName(), personId,
-        //				serviceContext.getModelPermissions());
+
+        resourceLocalService.updateResources(
+                user.getCompanyId(), serviceContext.getScopeGroupId(),
+                Person.class.getName(), personId,
+                serviceContext.getModelPermissions());
+
 
         return person;
     }
 
-
-    public Folder addFolder(String name, String description, Long parentId, ServiceContext serviceContext) throws PortalException {
-        Folder folder;
-        try {
-            folder = _dlAppService.getFolder(serviceContext.getScopeGroupId(), parentId, name);
-        } catch (NoSuchFolderException e) {
-            folder = _dlAppService.addFolder(serviceContext.getScopeGroupId(), parentId, name, description, serviceContext);
-        }
-        return folder;
-    }
-
-
     @Reference
     private DLAppService _dlAppService;
-
 
 }

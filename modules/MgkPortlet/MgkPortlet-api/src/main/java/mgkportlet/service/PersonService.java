@@ -19,8 +19,13 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import java.io.InputStream;
+
+import mgkportlet.model.Person;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -49,10 +54,28 @@ public interface PersonService extends BaseService {
 	 */
 
 	/**
+	 * NOTE FOR DEVELOPERS:
+	 * <p>
+	 * Never reference this class directly. Always use <code>mgkportlet.service.PersonServiceUtil</code> to access the person remote service.
+	 */
+	public Person addPerson(
+			long pId, String name, String family, String email, String address,
+			String phoneNumber, String nationalCode, String description,
+			String image, InputStream inputStream, String contentType,
+			Long size, ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public Person updatePerson(
+			long pId, long personId, String name, String family, String email,
+			String address, String phoneNumber, String nationalCode,
+			String description, String image, ServiceContext serviceContext)
+		throws PortalException;
 
 }

@@ -7,7 +7,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 
 import mgkportlet.model.Person;
 import mgkportlet.service.PersonLocalService;
-import mgkportlet.web.constants.MgkPortletWebPortletKeys;
+import mgkportlet.constants.MgkPortletWebPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 

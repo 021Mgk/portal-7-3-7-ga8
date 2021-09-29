@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import mgkportlet.model.Person;
-import mgkportlet.web.constants.MgkPortletWebPortletKeys;
+import mgkportlet.constants.MgkPortletWebPortletKeys;
 
 
 import javax.portlet.PortletURL;

@@ -39,12 +39,42 @@ public class PersonServiceUtil {
 	 */
 
 	/**
+	 * NOTE FOR DEVELOPERS:
+	 * <p>
+	 * Never reference this class directly. Always use <code>mgkportlet.service.PersonServiceUtil</code> to access the person remote service.
+	 */
+	public static mgkportlet.model.Person addPerson(
+			long pId, String name, String family, String email, String address,
+			String phoneNumber, String nationalCode, String description,
+			String image, java.io.InputStream inputStream, String contentType,
+			Long size,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().addPerson(
+			pId, name, family, email, address, phoneNumber, nationalCode,
+			description, image, inputStream, contentType, size, serviceContext);
+	}
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static mgkportlet.model.Person updatePerson(
+			long pId, long personId, String name, String family, String email,
+			String address, String phoneNumber, String nationalCode,
+			String description, String image,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updatePerson(
+			pId, personId, name, family, email, address, phoneNumber,
+			nationalCode, description, image, serviceContext);
 	}
 
 	public static PersonService getService() {

@@ -32,17 +32,15 @@ public class PersonLocalServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.repository.model.Folder addFolder(
-			String name, String description, Long parentId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+			String name, String description, Long parentId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _personLocalService.addFolder(
-			name, description, parentId, serviceContext);
+		return _personLocalService.addFolder(name, description, parentId);
 	}
 
 	/**
 	 * NOTE FOR DEVELOPERS:
-	 *
+	 * <p>
 	 * Never reference this class directly. Use <code>mgkportlet.service.PersonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>mgkportlet.service.PersonLocalServiceUtil</code>.
 	 */
 	@Override

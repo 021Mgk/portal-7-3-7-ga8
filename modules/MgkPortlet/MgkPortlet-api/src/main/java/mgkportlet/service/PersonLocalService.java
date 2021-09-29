@@ -66,14 +66,12 @@ public interface PersonLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>mgkportlet.service.impl.PersonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the person local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PersonLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	public Folder addFolder(
-			String name, String description, Long parentId,
-			ServiceContext serviceContext)
+	public Folder addFolder(String name, String description, Long parentId)
 		throws PortalException;
 
 	/**
 	 * NOTE FOR DEVELOPERS:
-	 *
+	 * <p>
 	 * Never reference this class directly. Use <code>mgkportlet.service.PersonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>mgkportlet.service.PersonLocalServiceUtil</code>.
 	 */
 	@Indexable(type = IndexableType.REINDEX)

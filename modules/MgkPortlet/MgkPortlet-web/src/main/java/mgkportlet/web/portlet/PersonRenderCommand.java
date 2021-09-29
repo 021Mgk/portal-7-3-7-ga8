@@ -1,13 +1,14 @@
 package mgkportlet.web.portlet;
 
 
+import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
 import mgkportlet.model.Person;
 import mgkportlet.service.PersonLocalService;
-import mgkportlet.web.constants.MgkPortletWebPortletKeys;
+import mgkportlet.constants.MgkPortletWebPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -34,9 +35,12 @@ public class PersonRenderCommand implements MVCRenderCommand {
             ServiceContext serviceContext = ServiceContextFactory.getInstance(Person.class.getName(), renderRequest);
 
             Long personId = ParamUtil.getLong(renderRequest, "personId");
-
+            System.out.println(personId + " from PersonRenderCommand");
             Person person = _personLocalService.getPerson(personId);
             renderRequest.setAttribute("person", person);
+
+//            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+//            Date startDate = df.parse(actionRequest.getParameter("startDate"));
 
 
             return "/person_view.jsp";
@@ -51,6 +55,7 @@ public class PersonRenderCommand implements MVCRenderCommand {
 
     @Reference
     private PersonLocalService _personLocalService;
+
 }
 
 

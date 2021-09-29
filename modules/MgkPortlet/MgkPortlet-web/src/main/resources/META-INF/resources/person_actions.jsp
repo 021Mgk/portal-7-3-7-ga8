@@ -9,20 +9,54 @@
 <liferay-ui:icon-menu>
 
 
-    <portlet:renderURL var="viewPersonURL">
-        <portlet:param name="personId" value="<%= String.valueOf(person.getPersonId()) %>"/>
-        <portlet:param name="mvcRenderCommandName" value="/person/view"/>
-    </portlet:renderURL>
+    <c:if test="<%= PersonModelPermission.contains(permissionChecker, person, ActionKeys.VIEW) %>">
+        <portlet:renderURL var="viewPersonURL">
+            <portlet:param name="personId" value="<%= String.valueOf(person.getPersonId()) %>"/>
+            <portlet:param name="mvcRenderCommandName" value="/person/view"/>
+        </portlet:renderURL>
 
-    <liferay-ui:icon message="View" url="<%= viewPersonURL.toString() %>"/>
+        <liferay-ui:icon message="View" url="<%= viewPersonURL.toString() %>"/>
+    </c:if>
+
+    <c:if test="<%= PersonModelPermission.contains(permissionChecker, person, ActionKeys.UPDATE) %>">
+        <portlet:renderURL var="editURL">
+            <portlet:param name="pID" value="<%= String.valueOf(person.getPersonId()) %>"/>
+            <portlet:param name="mvcPath" value="/edit_person.jsp"></portlet:param>
+        </portlet:renderURL>
+
+        <liferay-ui:icon image="edit" message="Edit" url="<%= editURL.toString() %>"/>
+    </c:if>
+
+<%--    <c:if  test="<%=PersonModelPermission.contains(permissionChecker, person.getPersonId() , ActionKeys.PERMISSIONS) %>">--%>
+
+<%--        <liferay-security:permissionsURL--%>
+<%--                modelResource="<%= Person.class.getName() %>"--%>
+<%--                modelResourceDescription="<%= person.getFamily() %>"--%>
+<%--                resourcePrimKey="<%= String.valueOf(person.getPersonId()) %>"--%>
+<%--                var="permissionsURL" />--%>
+
+<%--        <liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />--%>
+
+<%--    </c:if>--%>
 
 
-    <portlet:renderURL var="editURL">
-        <portlet:param name="pID" value="<%= String.valueOf(person.getPersonId()) %>"/>
-        <portlet:param name="mvcPath" value="/edit_person.jsp"></portlet:param>
-    </portlet:renderURL>
+    <c:if test="<%= PersonModelPermission.contains(permissionChecker, person, ActionKeys.PERMISSIONS) %>">
+        <liferay-security:permissionsURL
+                modelResource="<%= Person.class.getName() %>"
+                modelResourceDescription="<%= person.getName() %>"
+                resourcePrimKey="<%= String.valueOf(person.getPersonId()) %>"
+                var="permissionsURL"
+                windowState="<%= LiferayWindowState.POP_UP.toString() %>"
+        />
 
-    <liferay-ui:icon image="edit" message="Edit" url="<%= editURL.toString() %>"/>
+        <liferay-ui:icon
+                message="permissions"
+                image="permissions"
+                method="get"
+                url="<%= permissionsURL %>"
+                useDialog="<%= true %>"
+        />
+    </c:if>
 
     <%--        <c:if--%>
     <%--                test="<%= PersonPermission.contains(permissionChecker, person.getPersonId(), ActionKeys.UPDATE) %>">--%>

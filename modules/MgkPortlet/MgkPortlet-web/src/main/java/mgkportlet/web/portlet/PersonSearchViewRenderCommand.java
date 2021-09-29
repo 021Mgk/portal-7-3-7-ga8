@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import mgkportlet.model.Person;
 import mgkportlet.service.PersonLocalServiceUtil;
-import mgkportlet.web.constants.MgkPortletWebPortletKeys;
+import mgkportlet.constants.MgkPortletWebPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletException;

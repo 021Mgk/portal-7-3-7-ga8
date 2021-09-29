@@ -14,13 +14,22 @@
 
 package mgkportlet.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+
+import mgkportlet.service.PersonServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * <code>mgkportlet.service.PersonServiceUtil</code> service
+ * <code>PersonServiceUtil</code> service
  * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * <code>com.liferay.portal.kernel.security.auth.HttpPrincipal</code> parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -42,4 +51,109 @@ package mgkportlet.service.http;
  * @generated
  */
 public class PersonServiceHttp {
+
+	public static mgkportlet.model.Person addPerson(
+			HttpPrincipal httpPrincipal, long pId, String name, String family,
+			String email, String address, String phoneNumber,
+			String nationalCode, String description, String image,
+			java.io.InputStream inputStream, String contentType, Long size,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PersonServiceUtil.class, "addPerson",
+				_addPersonParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, pId, name, family, email, address, phoneNumber,
+				nationalCode, description, image, inputStream, contentType,
+				size, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (mgkportlet.model.Person)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static mgkportlet.model.Person updatePerson(
+			HttpPrincipal httpPrincipal, long pId, long personId, String name,
+			String family, String email, String address, String phoneNumber,
+			String nationalCode, String description, String image,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PersonServiceUtil.class, "updatePerson",
+				_updatePersonParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, pId, personId, name, family, email, address,
+				phoneNumber, nationalCode, description, image, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (mgkportlet.model.Person)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PersonServiceHttp.class);
+
+	private static final Class<?>[] _addPersonParameterTypes0 = new Class[] {
+		long.class, String.class, String.class, String.class, String.class,
+		String.class, String.class, String.class, String.class,
+		java.io.InputStream.class, String.class, Long.class,
+		com.liferay.portal.kernel.service.ServiceContext.class
+	};
+	private static final Class<?>[] _updatePersonParameterTypes1 = new Class[] {
+		long.class, long.class, String.class, String.class, String.class,
+		String.class, String.class, String.class, String.class, String.class,
+		com.liferay.portal.kernel.service.ServiceContext.class
+	};
+
 }

@@ -54,6 +54,10 @@
 <%@ page import="javax.portlet.PortletURL" %>
 
 
+<%@ page import="mgkportlet.web.internal.security.permission.resource.PersonPermission" %>
+<%@ page import="com.liferay.portal.kernel.security.permission.ActionKeys" %>
+<%@ page import="mgkportlet.web.internal.security.permission.resource.PersonModelPermission" %>
+
 
 <liferay-frontend:defineObjects/>
 

@@ -18,7 +18,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.soy.BaseVerticalCard;
 import com.liferay.portal.kernel.dao.search.RowChecker;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import mgkportlet.model.Person;
-import mgkportlet.web.constants.MgkPortletWebPortletKeys;
+import mgkportlet.constants.MgkPortletWebPortletKeys;
 
 
 import javax.portlet.RenderRequest;

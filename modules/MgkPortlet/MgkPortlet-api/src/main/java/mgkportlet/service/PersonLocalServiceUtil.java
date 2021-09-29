@@ -38,17 +38,15 @@ public class PersonLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>mgkportlet.service.impl.PersonLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.portal.kernel.repository.model.Folder addFolder(
-			String name, String description, Long parentId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+			String name, String description, Long parentId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().addFolder(
-			name, description, parentId, serviceContext);
+		return getService().addFolder(name, description, parentId);
 	}
 
 	/**
 	 * NOTE FOR DEVELOPERS:
-	 *
+	 * <p>
 	 * Never reference this class directly. Use <code>mgkportlet.service.PersonLocalService</code> via injection or a <code>ServiceTracker</code> or use <code>mgkportlet.service.PersonLocalServiceUtil</code>.
 	 */
 	public static mgkportlet.model.Person addPerson(

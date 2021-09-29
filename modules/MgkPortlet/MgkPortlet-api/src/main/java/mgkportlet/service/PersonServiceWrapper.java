@@ -31,6 +31,25 @@ public class PersonServiceWrapper
 	}
 
 	/**
+	 * NOTE FOR DEVELOPERS:
+	 * <p>
+	 * Never reference this class directly. Always use <code>mgkportlet.service.PersonServiceUtil</code> to access the person remote service.
+	 */
+	@Override
+	public mgkportlet.model.Person addPerson(
+			long pId, String name, String family, String email, String address,
+			String phoneNumber, String nationalCode, String description,
+			String image, java.io.InputStream inputStream, String contentType,
+			Long size,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personService.addPerson(
+			pId, name, family, email, address, phoneNumber, nationalCode,
+			description, image, inputStream, contentType, size, serviceContext);
+	}
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
@@ -38,6 +57,19 @@ public class PersonServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _personService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public mgkportlet.model.Person updatePerson(
+			long pId, long personId, String name, String family, String email,
+			String address, String phoneNumber, String nationalCode,
+			String description, String image,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personService.updatePerson(
+			pId, personId, name, family, email, address, phoneNumber,
+			nationalCode, description, image, serviceContext);
 	}
 
 	@Override

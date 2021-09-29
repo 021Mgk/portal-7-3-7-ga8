@@ -14,9 +14,16 @@
 
 package mgkportlet.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.rmi.RemoteException;
+
+import mgkportlet.service.PersonServiceUtil;
+
 /**
  * Provides the SOAP utility for the
- * <code>mgkportlet.service.PersonServiceUtil</code> service
+ * <code>PersonServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,29 @@ package mgkportlet.service.http;
  */
 @Deprecated
 public class PersonServiceSoap {
+
+	public static mgkportlet.model.PersonSoap updatePerson(
+			long pId, long personId, String name, String family, String email,
+			String address, String phoneNumber, String nationalCode,
+			String description, String image,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			mgkportlet.model.Person returnValue =
+				PersonServiceUtil.updatePerson(
+					pId, personId, name, family, email, address, phoneNumber,
+					nationalCode, description, image, serviceContext);
+
+			return mgkportlet.model.PersonSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PersonServiceSoap.class);
+
 }

@@ -26,7 +26,6 @@
 
 <portlet:actionURL name="addPerson" var="addPersonURL"></portlet:actionURL>
 
-<portlet:resourceURL var="downloadURL"></portlet:resourceURL>
 
 <aui:form action="<%= addPersonURL %>" name="<portlet:namespace />fm" enctype="multipart/form-data">
 
@@ -34,7 +33,6 @@
 
 
     <aui:fieldset>
-
         <aui:input name="name">
             <aui:validator name="required"/>
         </aui:input>
@@ -65,9 +63,11 @@
         <aui:input name="description" type="textarea" helpMessage="text"/>
         <p style="color: red"><c:out value="${errors.description}"></c:out></p>
 
-                <aui:input type="file" name="userImage" />
-        <%--        <a href="<%= downloadURL %>">Click Here for Download</a>--%>
-
+        <aui:input type="file" name="userImage"/>
+        <c:if test="<%= person !=null && !person.getImage().equals("") %>">
+            <portlet:resourceURL var="downloadURL"></portlet:resourceURL>
+            <a href="<%= person.getImage() %>" download="download">Click Here for Download</a>
+        </c:if>
         <c:if test="<%= pID != 0 %>">
             <aui:input name="PID" type="hidden" value="<%= pID %>"/>
         </c:if>
@@ -90,7 +90,7 @@
                     <portlet:param name="mvcPath" value="/edit_person.jsp"></portlet:param>
                 </portlet:renderURL>
 
-                <aui:button  onClick="<%= addPersonURL.toString() %>" cssClass="btn-info" value="New"></aui:button>
+                <aui:button onClick="<%= addPersonURL.toString() %>" cssClass="btn-info" value="New"></aui:button>
             </c:otherwise>
         </c:choose>
 
